@@ -1,0 +1,82 @@
+{
+  "(Development Mode)": "true/false",
+  "(WebUrl)": "https://sushaingupta.netlify.app",
+  "About": {
+    "AboutLong": "A **long description** about you.",
+    "AboutShort": "A **short description** about you.",
+    "EmailId": "Jhondoe@gmail.com",
+    "Gender": "male/female/other",
+    "Name": {
+      "FirstName": "Jhon",
+      "LastName": "Doe"
+    },
+    "Profession": "Web developer, UI/UX designer",
+    "ProfileImage": "",
+    "ResumeUrl": "",
+    "SocialMedia": {
+      "Github": "https://github.com/",
+      "Instagram": "https://www.instagram.com/",
+      "Linkedin": "https://www.linkedin.com/in/",
+      "Twitter": "https://twitter.com/"
+    }
+  },
+  "Education": {
+    "1 - SSC": {
+      "Completed": "true/false",
+      "CourseDuration": "From (Month) - to (Month) Year",
+      "CourseName": "SSC/HSC/graduation",
+      "Description": "Short description",
+      "ImageUrl": "Image url",
+      "InstituteName": "Name of school/college/institute"
+    },
+    "2 - HSC": {
+      "Completed": "true/false",
+      "CourseDuration": "From (Month) - to (Month) Year",
+      "CourseName": "SSC/HSC/graduation",
+      "Description": "Short description",
+      "ImageUrl": "Image url",
+      "InstituteName": "Name of school/college/institute"
+    },
+    "3 - graduation": {
+      "Completed": "true/false",
+      "CourseDuration": "From (Month) - to (Month) Year",
+      "CourseName": "SSC/HSC/graduation/etc",
+      "Description": "Short description",
+      "ImageUrl": "Image url",
+      "InstituteName": "Name of school/college/institute"
+    }
+  },
+  "EmailJs": {
+    "publicKey": "",
+    "serviceID": "",
+    "templateID": ""
+  },
+  "Experience": {
+    "1 - company name": {
+      "JobDescription": "**Lorem ipsum dolor, sit amet consectetur** adipisicing elit.//Quos, incidunt. Asperiores quisquam voluptas architecto quis unde eius a nemo, natus ex, perspiciatis harum exercitationem deserunt soluta assumenda necessitatibus neque. Quam!",
+      "companyName": "Company name",
+      "period": "From (Month) - to (Month) Year",
+      "title": "Job title"
+    }
+  },
+  "Logo": {
+    "initials": "",
+    "url": ""
+  },
+  "Projects": {
+    "1 - Project": {
+      "Github": "",
+      "ImageUrl": "",
+      "Library": "Library 1, Library 2",
+      "ProjectLink": "",
+      "ProjectScale": "Major",
+      "Techstack": "Techstack 1, Techstack 2",
+      "Title": "Project name"
+    }
+  },
+  "Skills": [
+    "Skill Name 1, major, skill image url 1",
+    "Skill Name 2, minor, skill image url 2",
+    "Skill Name 3, minor, skill image url 3"
+  ]
+}
