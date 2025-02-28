@@ -283,160 +283,88 @@ const Skills = (snapshot) => {
 ---------------------------------------------*/
 
 const Project = (snapshot) => {
-  if (snapshot.val().Projects) {
-    // defining variables.
-    const Projects = Object.values(snapshot.val().Projects);
-    const projectSection = document.querySelector(`.project-section`);
-    const projContainer = projectSection.querySelector(".card-container");
-    const path = window.location.pathname;
-
-    // Path can be "/" or "/projects"
-    if (path == "/" || path == "/index.html") {
-      const projSectionDesc = projectSection.querySelector(".sectionDesc");
-
-      projSectionDesc.innerHTML =
-        Projects.length <= 3
-          ? `Here are a few past projects I've worked on. Want to see more?<a
-        href="mailto:${emailId}" tabindex="22"> Email me ></a>`
-          : `Here are a few past projects I've worked on. Want to see more?<a
-        href="projects" tabindex="22"> View
-        More ></a>`;
-    } else {
-      // defining variables.
-      var homeSection = document.querySelector(".home-section");
-      var errorSection = document.querySelector(".errorSection");
-      var navBar = document.querySelector("header .navbar-list");
-    }
-
-    // set project container empty (usefull when portfolio is under development mode).
-    projContainer.innerHTML = ``;
-
-    // function to add projects.
-    const addProjects = () => {
-      Projects.reverse().every((project, index) => {
-        // defining variables.
-        const projectTechstack = project.Techstack;
-        const projectLibrary = project.Library;
-        const projectLink = project.ProjectLink;
-        const projectCode = project.Github;
-        const ProjectTitle = project.Title
-          ? project.Title
-          : "New Project Title";
-        const imageUrl = project.ImageUrl
-          ? project.ImageUrl
-          : "./assets/project.png";
-        const projectClass = ProjectTitle.replaceAll(" ", "") + index;
-        const tabindex = 19 + index;
-
-        // If projectScale is equal to "M", "major" or "Major", set value of projectScale as "major" else "minor".
-        const projectScale = /M|Major|major/.test(project.ProjectScale)
-          ? "major"
-          : "minor";
-
-        // Add project card in the project container as per the DB.
-        projContainer.innerHTML += `
-        <div class="project card ${projectScale} ${projectClass}" tabindex="${tabindex}">
-        <div class="imgDiv skeleton-box">
-          <img src="${imageUrl}" alt="${ProjectTitle} image">
-        </div>
-        <br>
-        <h6>${ProjectTitle}</h6>
-        <p class="techstack"><span> Techstack </span> - ${projectTechstack} </p>
-        <p class="library"><span> Libraries </span> - ${projectLibrary} </p>
-
-        <div class="options">
-          <a class="viewElem" href="${projectLink}" target="_blank"><ion-icon name="open-outline"></ion-icon></a>
-          <a class="githubElem" href="${projectCode}" target="_blank"><ion-icon name="logo-github"></ion-icon></a>
-          <button class="share"><ion-icon name="link-outline">${projectLink}</ion-icon></button>
-        </div>
-      </div>
-      `;
-
-        // defining variables.
-        const githubElem = projContainer.querySelector(
-          `.${projectClass} .githubElem`
-        );
-        const viewElem = projContainer.querySelector(
-          `.${projectClass} .viewElem`
-        );
-        const shareElem = projContainer.querySelector(
-          `.${projectClass} .share`
-        );
-
-        const libraryElem = projContainer.querySelector(
-          `.${projectClass} .library`
-        );
-        const techstackElem = projContainer.querySelector(
-          `.${projectClass} .techstack`
-        );
-
-        // If _____ value not found (undefined), remove element.
-        projectTechstack == undefined && techstackElem.remove();
-        projectLibrary == undefined && libraryElem.remove();
-
-        !projectLink && (viewElem.remove(), shareElem.remove());
-        !projectCode && githubElem.remove();
-
-        !projectLink &&
-          !projectCode &&
-          projContainer.querySelector(`.${projectClass} .options`).remove();
-
-        return path == "/" || path == "/index.html"
-          ? index < 2
-            ? true
-            : false
-          : true;
-      });
-
-      // Set share icon to copy text for each project.
-      const shareElems = projContainer.querySelectorAll(`.share`);
-      shareElems.forEach((elem) => {
-        elem.addEventListener("click", (elem) => {
-          const inputElem = document.body.appendChild(
-            document.createElement("input")
-          );
-
-          inputElem.value = elem.target.innerHTML;
-          inputElem.select();
-          inputElem.setSelectionRange(0, 99999);
-          document.execCommand("copy");
-          inputElem.parentNode.removeChild(inputElem);
-
-          Toastify({
-            text: "Link copied to clipboard!",
-            duration: 2500,
-            newWindow: true,
-            gravity: "top", // `top` or `bottom`
-            position: "left", // `left`, `center` or `right`
-            stopOnFocus: true,
-            style: {
-              background: "radial-gradient(#0BAB64, #3BB78F)",
-            },
-          }).showToast();
-        });
-      });
-    };
-
-    // If path includes "/project" and length of project array is greater than 3, call addProject() and set display to flex for all sections except error section (default display: none)
-    // If length is less than 3, error section display sets to flex.
-    // If path does not include "/projects" i.e path is equal to "/", call addProjects.
-    path.includes("/projects")
-      ? Projects.length > 3
-        ? (addProjects(),
-          (homeSection.style.display = "flex"),
-          (projectSection.style.display = "flex"),
-          (navBar.style.display = "flex"),
-          (errorSection.style.display = "none"))
-        : ((homeSection.style.display = "none"),
-          (projectSection.style.display = "none"),
-          (navBar.style.display = "none"),
-          (errorSection.style.display = "flex"))
-      : addProjects();
-  } else {
-    document.querySelector(".project-section") &&
-      document.querySelector(".project-section").remove();
+  const projectSection = document.querySelector(".project-section");
+  if (!snapshot.exists() || !snapshot.val().Projects) {
+    projectSection?.remove();
+    return;
   }
+
+  // Fetch project data dynamically
+  const Projects = Object.values(snapshot.val().Projects);
+  const projContainer = projectSection.querySelector(".card-container");
+  const path = window.location.pathname;
+
+  // Update project section description
+  const projSectionDesc = projectSection.querySelector(".sectionDesc");
+  projSectionDesc.innerHTML =
+    Projects.length <= 3
+      ? `Here are a few past projects I've worked on. Want to see more?<a href="mailto:${emailId}" tabindex="22"> Email me ></a>`
+      : `Here are a few past projects I've worked on. Want to see more?<a href="projects" tabindex="22"> View More ></a>`;
+
+  // Clear previous project listings
+  projContainer.innerHTML = "";
+
+  // Function to add projects dynamically
+  const addProjects = () => {
+    Projects.reverse().forEach((project, index) => {
+      const projectTechstack = project.Techstack || "N/A";
+      const projectLibrary = project.Library || "N/A";
+      const projectLink = project.ProjectLink || "";
+      const projectCode = project.Github || "";
+      const ProjectTitle = project.Title || "New Project Title";
+      const imageUrl = project.ImageUrl || "./assets/project.png";
+      const projectClass = ProjectTitle.replaceAll(" ", "") + index;
+      const tabindex = 19 + index;
+      const projectScale = /M|Major|major/.test(project.ProjectScale) ? "major" : "minor";
+
+      projContainer.innerHTML += `
+        <div class="project card ${projectScale} ${projectClass}" tabindex="${tabindex}">
+          <div class="imgDiv skeleton-box">
+            <img src="${imageUrl}" alt="${ProjectTitle} image">
+          </div>
+          <br>
+          <h6>${ProjectTitle}</h6>
+          <p class="techstack"><span> Techstack </span> - ${projectTechstack} </p>
+          <p class="library"><span> Libraries </span> - ${projectLibrary} </p>
+          <div class="options">
+            ${projectLink ? `<a class="viewElem" href="${projectLink}" target="_blank"><ion-icon name="open-outline"></ion-icon></a>` : ""}
+            ${projectCode ? `<a class="githubElem" href="${projectCode}" target="_blank"><ion-icon name="logo-github"></ion-icon></a>` : ""}
+            ${projectLink ? `<button class="share" data-link="${projectLink}"><ion-icon name="link-outline"></ion-icon></button>` : ""}
+          </div>
+        </div>
+      `;
+    });
+  };
+
+  // Call addProjects automatically
+  addProjects();
+
+  // Handle real-time updates (listens for database changes and updates automatically)
+  database.ref("Projects").on("child_changed", (newSnapshot) => {
+    Project(newSnapshot); // Re-call function to update UI in real-time
+  });
+
+  // Set up share button functionality
+  document.querySelectorAll(".share").forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+      const inputElem = document.createElement("input");
+      inputElem.value = event.target.closest(".share").dataset.link;
+      document.body.appendChild(inputElem);
+      inputElem.select();
+      document.execCommand("copy");
+      document.body.removeChild(inputElem);
+
+      Toastify({
+        text: "Link copied to clipboard!",
+        duration: 2500,
+        gravity: "top",
+        position: "left",
+        style: { background: "radial-gradient(#0BAB64, #3BB78F)" },
+      }).showToast();
+    });
+  });
 };
+
 
 /*-------------------------------------------
               EDUCATION SECTION
